@@ -1,0 +1,180 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="container">
+  <div class="row">
+    <div class="col-1"></div>
+    <div class="col-2">
+      <div style="height: 45px;"></div>
+      <img class="rounded-circle account-img" src="{{ url_for('static', filename='profile_pics/' + post.user.user_profile_image) }}" style="height: 120px; width: 120px;">
+    </div>
+    <div class="col-6">
+      <br/><br/>
+      <h1 class="display-5" style="display: inline;">
+        {{ post.user.user_name }}
+
+      </h1>
+      <div class="ml-4" style="display: inline; padding-bottom: 5px;">
+          <sup class="text-muted" style="font-size: 15px;">id: {{ post.post_writer_id }} </sup>
+      </div>
+      <div style="height: 1px;"></div>
+      {% if post.user.user_type == "trainer" %}
+        <span class="badge" style="background-color: gold; color: black;">Trainer</span>
+      {% elif post.user.user_type == "gym_manager" %}
+        <span class="badge badge-dark">Gym</span>
+      {% elif post.user.user_type == "operator" %}
+        <span class="badge badge-primary">Operator</span>
+      {% endif %}
+      <div style="height: 15px;"></div>
+
+      <p>{{ post.post_local_datetime.strftime('%Y-%m-%d %H:%M') }}</p>
+    </div>
+    <div class="col-3">
+      <div style="height: 60px;"></div>
+      <p>조회수: {{ post.post_page_view }}</p>
+    </div>
+  </div>
+  <div class="row">
+    {% if post.user == current_user or current_user.user_type == "operator" %}
+      <div style="margin-left: 800px; margin-top: 40px;">
+        <a class="btn btn-info btn-sm m0-1" href="{{ url_for('update_post', post_id=post.post_id) }}">게시물 업데이트</a>
+        <button type="button" class="btn btn-sm btn-secondary m-1" data-toggle="modal" data-target="#deleteModal">게시물 삭제</button>
+      </div>
+    {% endif %}
+  </div>
+  <div class="row">
+    <div class="col-1"> </div>
+    <div class="col-10">
+      <div class="content" style="border-bottom: 1px solid black;">
+        <div style="margin-top: 10px;">
+          <h1> {{ post.post_title }} </h1>
+        </div>
+      </div>
+      <div class="content">
+        {% if post.post_image != "no_image" %}
+        <div style="height: 30px"></div>
+          <img src="{{ post.post_image }}" style="height: 400px; width: 400px;">
+        {% endif %}
+        <div style="margin-top: 50px; margin-left: 10px; font-size: 25px;">
+          <pre>{{ post.post_content }}</pre>
+        </div>
+      </div>
+      <div style="height: 400px; border-bottom: 1px solid black;"></div>
+<!--      게시물 댓글란-->
+      <div class="comment">
+        <div>
+          <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group">
+              <div class="form-group">
+                {{ form.post_comment_content.label(class="form-control-label") }}
+
+                {% if form.post_comment_content.errors %}
+                  {{ form.post_comment_content(class="form-control form-control-lg is-invalid") }}
+                  <div class="invalid-feedback">
+                    {% for error in form.post_comment_content.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                  </div>
+                {% else %}
+                  {{ form.post_comment_content(class="form-control form-control-lg") }}
+                {% endif %}
+              </div>
+            </fieldset>
+            <div class="form-group" style="margin-left: 810px;">
+              {% if action == "view" %}
+                {{ form.submit1(class="btn btn-outline-info") }}
+              {% elif action == "update_comment" %}
+                {{ form.submit2(class="btn btn-outline-primary") }}
+              {% endif %}
+            </div>
+          </form>
+        </div>
+        <div style="border-bottom: 1px dashed black;"></div>
+        <div>
+          {% for post_comment in post_comments.items %}
+            <div class="row">
+              <div class="col-3">
+                <a href="#">{{ post_comment.user.user_name }}</a>
+                  {% if post_comment.user.user_type == "trainer" %}
+                    <span class="badge" style="background-color: gold; color: black;">Trainer</span>
+                  {% elif post_comment.user.user_type == "gym_manager" %}
+                    <span class="badge badge-dark">Gym</span>
+                  {% elif post_comment.user.user_type == "operator" %}
+                    <span class="badge badge-primary">Operator</span>
+                  {% endif %}
+              </div>
+              <div class="col-4">
+                <p>{{ post_comment.post_comment_content }}</p>
+              </div>
+              <div class="col-2">
+                <small class="text-muted">{{ post_comment.post_comment_local_datetime.strftime('%Y-%m-%d %H:%M') }}</small>
+              </div>
+              <div class="col-3">
+                {% if post_comment.user == current_user or current_user.user_type == "operator" %}
+                  <button type="button" class="btn btn-sm btn-link" style="margin-top: 1px; margin-bottom: 1px;"><a href="{{ url_for('update_post_comment', post_id=post_id, post_comment_id=post_comment.post_comment_id) }}">수정</a></button>
+                  <button type="button" class="btn btn-sm btn-link" style="margin-top: 1px; margin-bottom: 1px;" data-toggle="modal" data-target="#deleteCommentModal">삭제</button>
+                  <!--게시물 댓글 삭제 요청시 뜨는 Modal-->
+                  <div class="modal fade" id="deleteCommentModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="deleteCommentModalLabel">댓글을 삭제하시겠습니까?</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                          <form action="{{ url_for('delete_post_comment', post_id=post_id, post_comment_id=post_comment.post_comment_id) }}" method="POST">
+                            <input class="btn btn-danger" type="submit" value="Delete">
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+            <div style="border-bottom: 1px solid black;"></div>
+
+          {% endfor %}
+          <div style="height: 20px;"></div>
+          {% for page_num in post_comments.iter_pages() %}
+            {% if page_num %}
+              {% if post_comments.page == page_num %}
+                <a class="btn btn-info mb-4" href="{{ url_for('post', page=page_num, post_id=post_id) }}">{{ page_num }}</a>
+              {% else %}
+                <a class="btn btn-outline-info mb-4" href="{{ url_for('post', page=page_num, post_id=post_id) }}">{{ page_num }}</a>
+              {% endif %}
+            {% else %}
+              ...
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    <div class="col-1"></div>
+  </div>
+</div>
+<!--게시물 삭제 요청시 뜨는 Modal-->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLabel">게시물을 삭제하시겠습니까?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <form action="{{ url_for('delete_post', post_id=post.post_id) }}" method="POST">
+          <input class="btn btn-danger" type="submit" value="Delete">
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,54 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="container">
+  <div style="height: 30px;"></div>
+  <div class="row">
+    <div class="col-6">
+      <h1>지역 프로그램</h1>
+    </div>
+    <div class="col-6"></div>
+  </div>
+  <div style="height: 60px;"></div>
+  <table class="table table-hover table-bordered" style="text-align: center;">
+    <thead class="thead-light">
+      <tr style="font-family: 'NanumSquare', sans-serif;">
+        <th>타이틀</th>
+        <th>프로그램 종류</th>
+        <th>시작일</th>
+        <th>개최지 주소</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for gathering in gatherings.items %}
+        <tr>
+          <td>
+            <a href="{{ url_for('gathering', gathering_id=gathering.gathering_id) }}">{{ gathering.gathering_title }}</a>
+          </td>
+          <td>
+            <p>{{ gathering.gathering_type }}</p>
+          </td>
+          <td>
+            <p>{{ gathering.gathering_start_local_datetime.strftime('%Y-%m-%d') }}</p>
+          </td>
+          <td>
+            <p>{{ gathering.gathering_address }}</p>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <div style="height: 20px;"></div>
+  {% for page_num in gatherings.iter_pages() %}
+    {% if page_num %}
+      {% if gatherings.page == page_num %}
+        <a class="btn btn-info mb-4" href="{{ url_for('gathering_board_on_region_search', page=page_num, region_search_term=region_search_term) }}">{{ page_num }}</a>
+      {% else %}
+        <a class="btn btn-outline-info mb-4" href="{{ url_for('gathering_board_on_region_search', page=page_num, region_search_term=region_search_term) }}">{{ page_num }}</a>
+      {% endif %}
+    {% else %}
+      ...
+    {% endif %}
+  {% endfor %}
+</div>
+{% endblock content %}

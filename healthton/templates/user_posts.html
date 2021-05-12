@@ -1,0 +1,63 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container">
+  <div style="height: 50px;"></div>
+  <h1>작성글 목록</h1>
+  <div class="row">
+    <div class="col-4">
+      <p>written by "{{ user.user_name }}"
+        {% if user.user_type == "trainer" %}
+          <span class="badge" style="background-color: gold; color: black;">Trainer</span>
+        {% elif user.user_type == "gym_manager" %}
+          <span class="badge badge-dark">Gym</span>
+        {% elif user.user_type == "operator" %}
+          <span class="badge badge-primary">Operator</span>
+        {% endif %}
+      </p>
+    </div>
+    <div class="col-6"></div>
+    <div class="col-2">
+      <p>(총 {{ posts.total }}개의 게시글)</p>
+    </div>
+    <div style="height: 70px;"></div>
+  </div>
+    <div class="row">
+      <div class="col-4">
+        <p style="text-align: center;">작성자</p>
+      </div>
+      <div class="col-5">
+        <p style="text-align: center;">타이틀</p>
+      </div>
+      <div class="col-3">
+        <p style="text-align: center;">작성일시</p>
+      </div>
+    </div>
+  <div style="border-bottom: 2px solid black; padding-bottom: 5px;"></div>
+  <div style="height: 10px;"></div>
+  {% for post in posts.items %}
+    <div class="row">
+      <div class="col-4">
+        <p>{{ post.user.user_name }}</p>
+      </div>
+      <div class="col-5">
+        <a href="{{ url_for('post', post_id=post.post_id) }}">{{ post.post_title }}</a>
+      </div>
+      <div class="col-3">
+        <small class="text-muted">{{ post.post_local_datetime.strftime('%Y-%m-%d %H:%M') }}</small>
+      </div>
+    </div>
+    <div style="border-bottom: 1px solid dashed;"></div>
+  {% endfor %}
+  {% for page_num in posts.iter_pages() %}
+    {% if page_num %}
+      {% if posts.page == page_num %}
+        <a class="btn btn-info mb-4" href="{{ url_for('user_posts', user_id=user.id, page=page_num) }}">{{ page_num }}</a>
+      {% else %}
+        <a class="btn btn-outline-info mb-4" href="{{ url_for('user_posts', user_id=user.id, page=page_num) }}">{{ page_num }}</a>
+      {% endif %}
+  {% else %}
+      ...
+    {% endif %}
+  {% endfor %}
+</div>
+{% endblock content %}

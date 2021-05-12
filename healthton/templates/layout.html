@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+  {% if title %}
+      <title>Healthton - {{ title }}</title>
+  {% else %}
+      <title>Healthton</title>
+  {% endif %}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link href="https://fonts.googleapis.com/css?family=Black+Han+Sans:400" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/nanumsquare.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="{{url_for('static', filename='slider.css')}}" type="text/css">
+  <link rel="stylesheet" href="{{url_for('static', filename='view_point.css')}}" type="text/css">
+  <link rel="stylesheet" href="{{url_for('static', filename='navbar.css')}}" type="text/css">
+  <link rel="stylesheet" href="{{url_for('static', filename='lecture_container.css')}}" type="text/css">
+  <link rel="stylesheet" href="{{url_for('static', filename='form.css')}}" type="text/css">
+
+</head>
+<body>
+<!--<body style="background-image: url('{{ url_for('static', filename='images/background4.jpg') }}'); background-size: auto, cover; background-position: center center;">-->
+  <header class="site header">
+    <nav class="navbar navbar-expand bg-light">
+      <a href="{{ url_for('home') }}">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" style="width: 100px; height: 50px;" alt="healthton">
+      </a>
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item" style="padding-left: 100px;">
+          <a class="nav-link" href="{{ url_for('introduce') }}">소개</a>
+        </li>
+        <li class="nav-item" style="padding-left: 50px;">
+          <a class="nav-link" href="{{ url_for('gathering_board') }}">지역 프로그램</a>
+        </li>
+        <li class="nav-item" style="padding-left: 50px;">
+          <a class="nav-link" href="{{ url_for('notice_board') }}">공지사항</a>
+        </li>
+        <li class="nav-item" style="padding-left: 50px;">
+          <a class="nav-link" href="{{ url_for('bulletin_board') }}">게시판</a>
+        </li>
+        {% if current_user.user_type == "operator" %}
+          <li>
+            <a class="nav-link" style="padding-left: 50px;" href="{{ url_for('export_data') }}">데이터저장</a>
+          </li>
+        {% endif %}
+      </ul>
+      <!-- Navbar Right Side -->
+       <ul class="navbar-nav">
+        {% if current_user.is_authenticated %}
+           {% if current_user.user_type == "trainee" %}
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('trainee_schedule') }}">일정관리</a>
+            </li>
+          {% elif current_user.user_type == "trainer" %}
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('trainer_schedule') }}">일정관리</a>
+            </li>
+          {% elif current_user.user_type == "gym_manager" %}
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('new_notice') }}">공지글 게시</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('new_gathering') }}">지역 프로그램 개최</a>
+            </li>
+          {% elif current_user.user_type == "operator" %}
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('new_notice') }}">공지글 게시</a>
+            </li>
+          {% endif %}
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('account') }}">프로필관리</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('logout') }}">로그아웃</a>
+          </li>
+        {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('login') }}">로그인</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('register') }}">회원가입</a>
+          </li>
+        {% endif %}
+      </ul>
+    </nav>
+  </header>
+  <main role="main">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</body>
+</html>

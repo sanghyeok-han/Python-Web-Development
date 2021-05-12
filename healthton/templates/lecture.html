@@ -1,0 +1,147 @@
+<!--gathering에서 가져옴-->
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="container">
+  <div class="row">
+    <div class="col-1"></div>
+    <div class="col-3">
+      <div style="height: 45px;"></div>
+      <div style="height: 10px;"></div>
+      <img src="{{ lecture.lecture_thumbnail }}" style="height: 200px; width: 200px;">
+    </div>
+    <div class="col-6">
+      <div style="height: 70px;"></div>
+      <h1 class="display-5" style="display: inline;">
+        {{ lecture.lecture_title }}
+      </h1>
+      <div style="margin-top: 20px;"></div>
+      <div>
+        <p style="display: inline;">
+          <b>강의 시작일:</b>
+        </p>
+        <p style="display: inline; margin-left: 10px;">
+          {{ lecture.lecture_open_local_date.strftime('%Y-%m-%d') }}
+        </p>
+        <p style="display: inline; margin-left: 40px;">
+          <b>강의 종료일:</b>
+        </p>
+        <p style="display: inline; margin-left: 10px;">
+          {{ lecture.lecture_close_local_date.strftime('%Y-%m-%d') }}
+        </p>
+      </div>
+      <div>
+        <p style="display: inline;">
+          <b>강의 시작시간:</b>
+        </p>
+        <p style="display: inline; margin-left: 10px;">
+          {{ lecture.lecture_start_local_time.strftime('%H:%M') }}
+        </p>
+        <p style="display: inline; margin-left: 68px;">
+          <b>강의 종료시간:</b>
+        </p>
+        <p style="display: inline; margin-left: 10px;">
+          {{ lecture.lecture_end_local_time.strftime('%H:%M') }}
+        </p>
+      </div>
+      <p></p>
+      <div>
+        <p style="display: inline;">
+          <b>강의 트레이너 이름(닉네임):</b>
+        </p>
+        <p style="display: inline; margin-left: 10px;">
+          {{ teaching_trainer_name }}
+      </div>
+      {% if feedback_trainer_name != "" %}
+        <div>
+          <p style="display: inline;">
+            <b>피드백 트레이너 이름(닉네임):</b>
+          </p>
+          <p style="display: inline; margin-left: 10px;">
+            {{ feedback_trainer_name }}
+        </div>
+      {% endif %}
+    </div>
+    <div class="col-2"></div>
+  </div>
+  <!--  강의를 수정 및 삭제할 수 있는 권한을 가지고 있는 경우-->
+  {% if can_update_or_delete_lecture %}
+    <div class="row">
+      <div style="margin-left: 800px; margin-top: 40px;">
+        <a class="btn btn-secondary btn-sm m0-1" href="{{ url_for('update_lecture', lecture_id=lecture.lecture_id) }}">강의 업데이트</a>
+        <button type="button" class="btn btn-sm btn-danger m-1" data-toggle="modal" data-target="#deleteModal">강의 등록 취소</button>
+      </div>
+    </div>
+  {% endif %}
+  <!--  강의에 피드백 트레이너로 참여할 수 있는 경우-->
+  {% if can_register_as_feedback_trainer %}
+    <div class="row">
+      <div style="margin-left: 800px; margin-top: 40px;">
+        <form method="POST" action="">
+          {{ form.hidden_tag() }}
+          <div class="form-group">
+            {{ form.submit1(class="btn btn-outline-info") }}
+          </div>
+        </form>
+      </div>
+    </div>
+  {% endif %}
+  <!-- 강의를 수강할 수 있는 경우-->
+    {% if can_register_as_attendee %}
+    <div class="row">
+      <div style="margin-left: 800px; margin-top: 40px;">
+        <form method="POST" action="">
+          {{ form.hidden_tag() }}
+          <div class="form-group">
+            {{ form.submit2(class="btn btn-outline-info") }}
+          </div>
+        </form>
+      </div>
+    </div>
+  {% endif %}
+  <div class="row">
+    <div class="col-1"> </div>
+    <div class="col-10">
+      <div class="content">
+        <div style="margin-top: 50px; margin-left: 10px;">
+          <div style="font-size: 25px;">
+            <pre>{{ lecture.lecture_content }}</pre>
+          </div>
+          <div style="margin-top: 100px;">
+            <p>
+              최대 인원 수:
+              {% if lecture.lecture_max_attendees_num == 0 %}
+                제한 없음
+              {% else %}
+                {{ lecture.lecture_max_attendees_num }}
+              {% endif %}
+            </p>
+          </div>
+          <div>
+            현재 인원수: {{ lecture.lecture_current_attendees_num }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-1"> </div>
+  </div>
+</div>
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLabel">해당 강의의 등록을 취소하시겠습니까?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <form action="{{ url_for('delete_lecture', lecture_id=lecture.lecture_id) }}" method="POST">
+          <input class="btn btn-danger" type="submit" value="Delete">
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

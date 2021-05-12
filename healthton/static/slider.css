@@ -1,0 +1,42 @@
+.carousel-item {
+  width: 100%;
+  height: 500px;
+}
+
+.carousel-inner img {
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  filter: brightness(100%) contrast(110%);
+}
+
+.side_image_left, .side_image_right {
+  filter: brightness(50%) saturate(20%);
+}
+
+.news {
+  background: white;
+}
+
+.lecture_category {
+  display: block;
+  position: absolute;
+  left: 5em;
+  height: 5vw;
+  width: 7vw;
+  padding-top: 1.7vw;
+  font-family: 'NanumSquare'
+  font-weight: bold;
+}
+
+.lecture_category1 {
+  top: 5em;
+}
+
+.lecture_category2 {
+  bottom: 10em;
+}
+
+.side {
+  background-color: rgba(111, 214, 232, 0.3);
+}

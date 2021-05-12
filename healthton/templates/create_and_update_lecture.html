@@ -1,0 +1,156 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container">
+  <div class="content-section">
+    <div style="height: 40px;"></div>
+    <form method="POST" action="" enctype="multipart/form-data">
+      {{ form.hidden_tag() }}
+      <fieldset class="form-group">
+        <legend class="border-bottom mb-4">{{ legend }}</legend>
+        <!--        강의 종류-->
+        <div class="form-group">
+          {{ form.lecture_type.label(class="form-control-label") }}
+          {% if form.lecture_type.errors %}
+            {{ form.lecture_type(class="is-invalid") }}
+            <div class="invalid-feedback">
+              {% for error in form.lecture_type.errors %}
+                <span>{{ error }}</span>
+              {% endfor %}
+            </div>
+          {% else %}
+            {{ form.lecture_type() }}
+          {% endif %}
+        </div>
+        <!--        강의 제목-->
+        <div class="form-group">
+          {{ form.lecture_title.label(class="form-control-label") }}
+          {% if form.lecture_title.errors %}
+            {{ form.lecture_title(class="form-control form-control-lg is-invalid") }}
+            <div class="invalid-feedback">
+              {% for error in form.lecture_title.errors %}
+               <span>{{ error }}</span>
+              {% endfor %}
+            </div>
+          {% else %}
+            {{ form.lecture_title(class="form-control form-control-lg") }}
+          {% endif %}
+        </div>
+        <!--        강의 내용-->
+        <div class="form-group">
+          {{ form.lecture_content.label(class="form-control-label") }}
+          {% if form.lecture_content.errors %}
+            {{ form.lecture_content(class="form-control form-control-lg is-invalid") }}
+            <div class="invalid-feedback">
+              {% for error in form.lecture_content.errors %}
+                <span>{{ error }}</span>
+              {% endfor %}
+            </div>
+          {% else %}
+           {{ form.lecture_content(class="form-control form-control-lg") }}
+          {% endif %}
+        </div>
+        <!--        썸네일-->
+          <div class="form-group">
+            {{ form.lecture_thumbnail.label() }}
+            {{ form.lecture_thumbnail(class="form-control-file") }}
+            {% if form.lecture_thumbnail.errors %}
+              {% for error in form.lecture_thumbnail.errors %}
+                <span class="text-danger">{{ error }}</span><br/>
+              {% endfor %}
+            {% endif %}
+          </div>
+        <!--        강의 시작일-->
+        <div class="form-group">
+          {{ form.lecture_open_local_date.label(class="form-control-label") }}
+          {% if form.lecture_open_local_date.errors %}
+            {{ form.lecture_open_local_date(class="form-control form-control-lg is-invalid") }}
+            <div class="invalid-feedback">
+              {% for error in form.lecture_open_local_date.errors %}
+                <span>{{ error }}</span>
+              {% endfor %}
+            </div>
+          {% else %}
+           {{ form.lecture_open_local_date(class="form-control form-control-lg") }}
+          {% endif %}
+        </div>
+        <!--        강의 종료일-->
+        <div class="form-group">
+          {{ form.lecture_close_local_date.label(class="form-control-label") }}
+          {% if form.lecture_close_local_date.errors %}
+            {{ form.lecture_close_local_date(class="form-control form-control-lg is-invalid") }}
+            <div class="invalid-feedback">
+              {% for error in form.lecture_close_local_date.errors %}
+                <span>{{ error }}</span>
+              {% endfor %}
+            </div>
+          {% else %}
+           {{ form.lecture_close_local_date(class="form-control form-control-lg") }}
+          {% endif %}
+        </div>
+
+        <!--        강의 시작 시간-->
+        <div class="form-group">
+          {{ form.lecture_start_local_time.label(class="form-control-label") }}
+          {% if form.lecture_start_local_time.errors %}
+            {{ form.lecture_start_local_time(class="form-control form-control-lg is-invalid") }}
+            <div class="invalid-feedback">
+              {% for error in form.lecture_start_local_time.errors %}
+              <span>{{ error }}</span>
+              {% endfor %}
+            </div>
+          {% else %}
+           {{ form.lecture_start_local_time(class="form-control form-control-lg") }}
+          {% endif %}
+        </div>
+        <!--        강의 종료 시간-->
+        <div class="form-group">
+          {{ form.lecture_end_local_time.label(class="form-control-label") }}
+          {% if form.lecture_end_local_time.errors %}
+            {{ form.lecture_end_local_time(class="form-control form-control-lg is-invalid") }}
+            <div class="invalid-feedback">
+              {% for error in form.lecture_end_local_time.errors %}
+              <span>{{ error }}</span>
+              {% endfor %}
+            </div>
+          {% else %}
+           {{ form.lecture_end_local_time(class="form-control form-control-lg") }}
+          {% endif %}
+        </div>
+        <!--        강의 요일 선택-->
+        <div class="form-group">
+          {{ form.lecture_days.label(class="form-control-label") }}
+          {% if form.lecture_days.errors %}
+            {{ form.lecture_days(class="form-control form-control-lg is-invalid") }}
+            <div class="invalid-feedback">
+              {% for error in form.lecture_days.errors %}
+              <span>{{ error }}</span>
+              {% endfor %}
+            </div>
+          {% else %}
+           {{ form.lecture_days(class="form-control form-control-lg") }}
+          {% endif %}
+        </div>
+        <!--        강의 최대 인원수-->
+        <div class="form-group">
+          {{ form.lecture_max_attendees_num.label(class="form-control-label") }}
+          {% if form.lecture_max_attendees_num.errors %}
+            {{ form.lecture_max_attendees_num(class="form-control form-control-lg is-invalid") }}
+            <div class="invalid-feedback">
+              {% for error in form.lecture_max_attendees_num.errors %}
+              <span>{{ error }}</span>
+              {% endfor %}
+            </div>
+          {% else %}
+           {{ form.lecture_max_attendees_num(class="form-control form-control-lg") }}
+          {% endif %}
+        </div>
+      </fieldset>
+      <div class="form-group">
+        {{ form.submit(class="btn btn-outline-info") }}
+      </div>
+    </form>
+    <p>* 강의 등록시 자동으로 강의 트레이너로 등록됩니다.</p>
+  </div>
+</div>
+
+{% endblock content %}

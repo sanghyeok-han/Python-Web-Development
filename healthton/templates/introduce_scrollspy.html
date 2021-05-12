@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+  <style>
+  body {
+      position: relative;
+  }
+  </style>
+</head>
+<body data-spy="scroll" data-target=".navbar" data-offset="50">
+
+<nav class="navbar navbar-expand-sm bg-light navbar-light fixed-top">
+  <ul class="navbar-nav">
+    <li class="nav-item">
+      <a class="nav-link" href="#section1">헬스톤 프로젝트 소개</a>
+    </li>
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+        운영진
+      </a>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" href="#section21">김사곤</a>
+        <a class="dropdown-item" href="#section22">정민기</a>
+        <a class="dropdown-item" href="#section23">정용제</a>
+        <a class="dropdown-item" href="#section24">한상혁</a>
+      </div>
+    </li>
+  </ul>
+</nav>
+
+<div id="section1" class="container-fluid" style="padding-top:70px;padding-bottom:70px; background-color: white;">
+  <h1>헬스톤 프로젝트 소개</h1>
+  <div class="row">
+    <div class="col-3"></div>
+    <div class="col-7">
+      <img src="{{url_for('static', filename='images/introduce_pic.png')}}" alt="" width="100%" height="600">
+    </div>
+  </div>
+  <div class="col-1"></div>
+</div>
+
+<div id="section21" class="container-fluid" style="padding-top:70px;padding-bottom:70px; background-color: #d3f4ff">
+  <h1>Operator - 김사곤</h1>
+  <p>소속: 헬스톤 프로젝트</p>
+</div>
+<div id="section22" class="container-fluid" style="padding-top:70px;padding-bottom:70px; background-color: #b2dffb">
+  <h1>Operator - 정용제</h1>
+  <p>소속: 헬스톤 프로젝트</p>
+</div>
+<div id="section23" class="container-fluid" style="padding-top:70px;padding-bottom:70px; background-color: #e7a4e4;">
+  <h1>Operator - 정민기</h1>
+  <p>소속: 헬스톤 프로젝트</p>
+</div>
+<div id="section24" class="container-fluid" style="padding-top:70px;padding-bottom:70px; background-color: #ffc55c;">
+  <h1>Operator - 한상혁</h1>
+  <p>소속: 헬스톤 프로젝트</p>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,140 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container">
+  <div class="content-section">
+    <div style="height: 40px;"></div>
+    <form method="POST" action="" enctype="multipart/form-data">
+      {{ form.hidden_tag() }}
+      <fieldset class="form-group">
+        <legend class="border-bottom mb-4">{{ legend }}</legend>
+        <!--        종류-->
+        <div class="form-group">
+          {{ form.gathering_type.label(class="form-control-label") }}
+          {% if form.gathering_type.errors %}
+            {{ form.gathering_type(class="form-control form-control-lg is-invalid") }}
+            <div class="invalid-feedback">
+              {% for error in form.gathering_type.errors %}
+              <span>{{ error }}</span>
+              {% endfor %}
+            </div>
+          {% else %}
+           {{ form.gathering_type(class="form-control form-control-lg") }}
+          {% endif %}
+        </div>
+        <!--        제목-->
+        <div class="form-group">
+          {{ form.gathering_title.label(class="form-control-label") }}
+          {% if form.gathering_title.errors %}
+            {{ form.gathering_title(class="form-control form-control-lg is-invalid") }}
+            <div class="invalid-feedback">
+              {% for error in form.gathering_title.errors %}
+               <span>{{ error }}</span>
+              {% endfor %}
+            </div>
+          {% else %}
+            {{ form.gathering_title(class="form-control form-control-lg") }}
+          {% endif %}
+        </div>
+        <!--        내용-->
+        <div class="form-group">
+          {{ form.gathering_content.label(class="form-control-label") }}
+          {% if form.gathering_content.errors %}
+            {{ form.gathering_content(class="form-control form-control-lg is-invalid") }}
+            <div class="invalid-feedback">
+              {% for error in form.gathering_content.errors %}
+                <span>{{ error }}</span>
+              {% endfor %}
+            </div>
+          {% else %}
+           {{ form.gathering_content(class="form-control form-control-lg") }}
+          {% endif %}
+        </div>
+        <!--        썸네일-->
+          <div class="form-group">
+            {{ form.gathering_thumbnail.label() }}
+            {{ form.gathering_thumbnail(class="form-control-file") }}
+            {% if form.gathering_thumbnail.errors %}
+              {% for error in form.gathering_thumbnail.errors %}
+                <span class="text-danger">{{ error }}</span><br/>
+              {% endfor %}
+            {% endif %}
+          </div>
+        <!--        개최지 주소-->
+        <div class="form-group">
+          {{ form.gathering_address.label(class="form-control-label") }}
+          {% if form.gathering_address.errors %}
+            {{ form.gathering_address(class="form-control form-control-lg is-invalid") }}
+            <div class="invalid-feedback">
+              {% for error in form.gathering_address.errors %}
+              <span>{{ error }}</span>
+              {% endfor %}
+            </div>
+          {% else %}
+           {{ form.gathering_address(class="form-control form-control-lg") }}
+          {% endif %}
+        </div>
+        <!--        시작일-->
+        <div class="form-group">
+          {{ form.gathering_start_local_datetime.label(class="form-control-label") }}
+          {% if form.gathering_start_local_datetime.errors %}
+            {{ form.gathering_start_local_datetime(class="form-control form-control-lg is-invalid") }}
+            <div class="invalid-feedback">
+              {% for error in form.gathering_start_local_datetime.errors %}
+              <span>{{ error }}</span>
+              {% endfor %}
+            </div>
+          {% else %}
+           {{ form.gathering_start_local_datetime(class="form-control form-control-lg") }}
+          {% endif %}
+        </div>
+        <!--        종료일-->
+        <div class="form-group">
+          {{ form.gathering_end_local_datetime.label(class="form-control-label") }}
+          {% if form.gathering_end_local_datetime.errors %}
+            {{ form.gathering_end_local_datetime(class="form-control form-control-lg is-invalid") }}
+            <div class="invalid-feedback">
+              {% for error in form.gathering_end_local_datetime.errors %}
+              <span>{{ error }}</span>
+              {% endfor %}
+            </div>
+          {% else %}
+           {{ form.gathering_end_local_datetime(class="form-control form-control-lg") }}
+          {% endif %}
+        </div>
+        <!--        최대 인원수-->
+        <div class="form-group">
+          {{ form.gathering_max_participants_num.label(class="form-control-label") }}
+          {% if form.gathering_max_participants_num.errors %}
+            {{ form.gathering_max_participants_num(class="form-control form-control-lg is-invalid") }}
+            <div class="invalid-feedback">
+              {% for error in form.gathering_max_participants_num.errors %}
+              <span>{{ error }}</span>
+              {% endfor %}
+            </div>
+          {% else %}
+           {{ form.gathering_max_participants_num(class="form-control form-control-lg") }}
+          {% endif %}
+        </div>
+        <!--        적용될 양식-->
+        <div class="form-group">
+          {{ form.gathering_thumbnail_form.label(class="form-control-label") }}
+          {% if form.gathering_thumbnail_form.errors %}
+            {{ form.gathering_thumbnail_form(class="is-invalid") }}
+            <div class="invalid-feedback">
+              {% for error in form.gathering_thumbnail_form.errors %}
+                <span>{{ error }}</span>
+              {% endfor %}
+            </div>
+          {% else %}
+            {{ form.gathering_thumbnail_form() }}
+          {% endif %}
+        </div>
+      </fieldset>
+      <div class="form-group">
+        {{ form.submit(class="btn btn-outline-info") }}
+      </div>
+    </form>
+  </div>
+</div>
+
+{% endblock content %}

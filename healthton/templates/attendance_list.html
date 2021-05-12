@@ -1,0 +1,56 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="container">
+  <div style="height: 30px;"></div>
+  <h1>강의 출결 현황</h1>
+  <div style="height: 60px;"></div>
+  <div style="margin-left: 20px;">
+    <h4>강의 제목: {{ lecture_title }}</h4>
+  </div>
+  <div style="height: 30px;"></div>
+  <div class="container">
+    <table class="table table-bordered table-dark table-striped" style="text-align: center;">
+      <thead>
+        <tr>
+          <th>강의 날짜</th>
+          <th>요일</th>
+          <th>강의 출결 여부</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for attendance in attendances.items %}
+          <tr>
+            <td>
+              {{ attendance.attendance_lecture_local_date.strftime('%Y-%m-%d') }}
+            </td>
+            <td>
+              {{ attendance.attendance_lecture_local_day }}
+            </td>
+            <td>
+              {% if attendance.attendance_has_attended %}
+                T
+              {% else %}
+                F
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+<div style="margin-left: 530px;">
+  {% for page_num in attendances.iter_pages() %}
+    {% if page_num %}
+      {% if attendances.page == page_num %}
+        <a class="btn btn-dark mb-4" href="{{ url_for('attendance_list', page=page_num, trainee_id=trainee_id, lecture_id=lecture_id) }}">{{ page_num }}</a>
+      {% else %}
+        <a class="btn btn-outline-dark mb-4" href="{{ url_for('attendance_list', page=page_num) }}">{{ page_num }}</a>
+      {% endif %}
+    {% else %}
+      ...
+    {% endif %}
+  {% endfor %}
+</div>
+{% endblock content %}

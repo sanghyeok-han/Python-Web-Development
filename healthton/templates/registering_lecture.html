@@ -1,0 +1,123 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="container">
+  <div style="height: 30px;"></div>
+  <h1>{{ legend }}</h1>
+  <div class="row">
+    {% for odd_index_lecture, even_index_lecture in lectures %}
+      <div class="col-6">
+        <div class="container bg-info text-white lecture_container">
+          <div class="row">
+            <div class="col-5">
+              <img src="{{ odd_index_lecture[0].lecture_thumbnail }}" style="height: 150px; width: 200px;">
+            </div>
+            <div class="col-7">
+              <h3>{{ odd_index_lecture[0].lecture_title }}</h3>
+            </div>
+          </div>
+          <div>
+            <p style="display: inline;">
+              시작일: {{ odd_index_lecture[0].lecture_open_local_date.strftime('%Y-%m-%d') }}
+            </p>
+            <p style="display: inline; margin-left: 20px;">
+              종료일: {{ odd_index_lecture[0].lecture_close_local_date.strftime('%Y-%m-%d') }}
+            </p>
+          </div>
+          <div>
+            <p style="display: inline;">
+              시작 시간: {{ odd_index_lecture[0].lecture_start_local_time.strftime('%H:%M') }}
+            </p>
+            <p style="display: inline; margin-left: 43px;">
+              종료 시간: {{ odd_index_lecture[0].lecture_end_local_time.strftime('%H:%M') }}
+            </p>
+          </div>
+          <div>
+            <p style="display: inline;">
+              요일: {{ odd_index_lecture[1] }}
+            </p>
+            <p></p>
+          </div>
+          <div>
+            <p style="display: inline;">
+              최대 인원 수:
+              {% if odd_index_lecture[0].lecture_max_attendees_num == 0 %}
+                제한 없음
+              {% else %}
+                {{ odd_index_lecture[0].lecture_max_attendees_num }}
+              {% endif %}
+            </p>
+            <a class="btn btn_light" style="position: absolute; right: 78px; bottom: 75px;" href="{{ url_for('lecture', lecture_id=odd_index_lecture[0].lecture_id) }}"><button class="btn btn-warning">-> 자세히 보기</button></a>
+            <p></p>
+          </div>
+          <div>
+            <p style="display: inline;">
+              강의 트레이너 이름:
+              {{ odd_index_lecture[0].trainers[0].trainer.user_name }}
+            </p>
+          </div>
+        </div>
+        <div style="height: 50px;"></div>
+      </div>
+        <div class="col-6">
+          {% if even_index_lecture[0] %}
+            <div class="container bg-info text-white lecture_container">
+              <div class="row">
+                <div class="col-5">
+                  <img src="{{ even_index_lecture[0].lecture_thumbnail }}" style="height: 150px; width: 200px;">
+                </div>
+                <div class="col-7">
+                  <h3>{{ even_index_lecture[0].lecture_title }}</h3>
+                </div>
+              </div>
+              <div>
+                <p style="display: inline;">
+                  시작일: {{ even_index_lecture[0].lecture_open_local_date.strftime('%Y-%m-%d') }}
+                </p>
+                <p style="display: inline; margin-left: 20px;">
+                  종료일: {{ even_index_lecture[0].lecture_close_local_date.strftime('%Y-%m-%d') }}
+                </p>
+              </div>
+              <div>
+                <p style="display: inline;">
+                  시작 시간: {{ even_index_lecture[0].lecture_start_local_time.strftime('%H:%M') }}
+                </p>
+                <p style="display: inline; margin-left: 43px;">
+                  종료 시간: {{ even_index_lecture[0].lecture_end_local_time.strftime('%H:%M') }}
+                </p>
+              </div>
+              <div>
+            <p style="display: inline;">
+              요일: {{ even_index_lecture[1] }}
+            </p>
+            <p></p>
+          </div>
+          <div>
+            <p style="display: inline;">
+              최대 인원 수:
+              {% if even_index_lecture[0].lecture_max_attendees_num == 0 %}
+                제한 없음
+              {% else %}
+                {{ even_index_lecture[0].lecture_max_attendees_num }}
+              {% endif %}
+            </p>
+            <a class="btn btn_light" style="position: absolute; right: 78px; bottom: 75px;" href="{{ url_for('lecture', lecture_id=even_index_lecture[0].lecture_id) }}"><button class="btn btn-warning">-> 자세히 보기</button></a>
+            <p></p>
+          </div>
+              <div>
+                <p style="display: inline;">
+                  강의 트레이너 이름:
+                  {{ even_index_lecture[0].trainers[0].trainer.user_name }}
+                </p>
+              </div>
+            </div>
+          {% endif %}
+          <div style="height: 50px;"></div>
+      </div>
+    {% endfor %}
+  </div>
+
+  <div style="height: 60px;"></div>
+</div>
+
+{% endblock content %}

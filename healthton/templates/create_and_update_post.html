@@ -1,0 +1,55 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container">
+  <div class="content-section">
+    <div style="height: 40px;"></div>
+    <form method="POST" action="" enctype="multipart/form-data">
+      {{ form.hidden_tag() }}
+      <fieldset class="form-group">
+        <legend class="border-bottom mb-4">{{ legend }}</legend>
+        <div class="form-group">
+          {{ form.post_title.label(class="form-control-label") }}
+          {% if form.post_title.errors %}
+            {{ form.post_title(class="form-control form-control-lg is-invalid") }}
+            <div class="invalid-feedback">
+              {% for error in form.post_title.errors %}
+                <span>{{ error }}</span>
+              {% endfor %}
+            </div>
+          {% else %}
+            {{ form.post_title(class="form-control form-control-lg") }}
+          {% endif %}
+        </div>
+        <div class="form-group">
+          {{ form.post_content.label(class="form-control-label") }}
+          {% if form.post_content.errors %}
+            {{ form.post_content(class="form-control form-control-lg is-invalid") }}
+            <div class="invalid-feedback">
+              {% for error in form.post_content.errors %}
+               <span>{{ error }}</span>
+              {% endfor %}
+            </div>
+          {% else %}
+           {{ form.post_content(class="form-control form-control-lg") }}
+          {% endif %}
+        </div>
+        <!--        이미지 첨부-->
+        <div class="form-group">
+          {{ form.post_image.label() }}
+          {{ form.post_image(class="form-control-file") }}
+          {% if form.post_image.errors %}
+            {% for error in form.post_image.errors %}
+              <span class="text-danger">{{ error }}</span><br/>
+            {% endfor %}
+          {% endif %}
+        </div>
+      </fieldset>
+      <div class="form-group">
+        {{ form.submit(class="btn btn-outline-info") }}
+      </div>
+    </form>
+  </div>
+</div>
+
+
+{% endblock content %}

@@ -1,0 +1,86 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="container">
+  {% if gathering.gathering_gym_manager_id == current_user.id or current_user.user_type == "operator" %}
+    <div class="row">
+      <div style="margin-left: 800px; margin-top: 40px;">
+        <a class="btn btn-info btn-sm m0-1" href="{{ url_for('update_gathering', gathering_id=gathering.gathering_id) }}">게시물 업데이트</a>
+        <button type="button" class="btn btn-sm btn-secondary m-1" data-toggle="modal" data-target="#deleteModal">게시물 삭제</button>
+      </div>
+    </div>
+  {% endif %}
+
+  <div class="row">
+    <div class="col-1"></div>
+    <div class="col-3">
+      <div style="height: 45px;"></div>
+      <h1>{{ gathering.gathering_type }}</h1>
+      <div style="height: 10px;"></div>
+      <img src="{{ gathering.gathering_thumbnail }}" style="height: 200px; width: 200px;">
+    </div>
+    <div class="col-6">
+      <div style="height: 110px;"></div>
+      <h1 class="display-5" style="display: inline;">
+        {{ gathering.gathering_title }}
+      </h1>
+      <p>{{ gathering.gathering_start_local_datetime.strftime('%Y-%m-%d') }}</p>
+      <p>{{ gathering.gathering_address }}</p>
+    </div>
+    <div class="col-2"></div>
+  </div>
+  <div class="row">
+    <div class="col-1"> </div>
+    <div class="col-10">
+      <div class="content">
+        <div style="margin-top: 50px; margin-left: 10px;">
+          <div style="font-size: 25px;">
+            <pre>{{ gathering.gathering_content }}</pre>
+          </div>
+          <div style="margin-top: 100px;">
+            최대 인원수: {{ gathering.gathering_max_participants_num }}
+          </div>
+          <div>
+            현재 인원수: {{ gathering.gathering_current_participants_num }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-1"> </div>
+  </div>
+  <div class="row">
+    <div class="col-8"></div>
+    <div class="col-4">
+<!--      오프라인 프로그램에 참여할 수 있는 경우-->
+      {% if current_user.is_authenticated and gathering.gathering_current_participants_num < gathering.gathering_max_participants_num %}
+        {% if can_apply %}
+          <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+              {{ form.submit(class="btn btn-outline-info") }}
+            </div>
+          </form>
+        {% endif %}
+      {% endif %}
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLabel">등록한 오프라인 프로그램을 삭제하시겠습니까?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <form action="{{ url_for('delete_gathering', gathering_id=gathering.gathering_id) }}" method="POST">
+          <input class="btn btn-danger" type="submit" value="Delete">
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

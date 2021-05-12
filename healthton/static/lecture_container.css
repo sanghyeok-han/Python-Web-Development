@@ -1,0 +1,8 @@
+.lecture_container{
+  height: 300px;
+}
+
+.lecture_container div.row h3{
+  height: 130px;
+  overflow: auto;
+}

@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="container">
+  <div style="height: 30px;"></div>
+  <h1>게시판</h1>
+  <div style="height: 60px;"></div>
+  <table class="table table-hover table-bordered table-striped" style="text-align: center;">
+    <thead class="thead-dark">
+      <tr style="font-family: 'NanumSquare', sans-serif;">
+        <th>작성자</th>
+        <th>타이틀</th>
+        <th>작성일시</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for post in posts.items %}
+        <tr>
+          <td>
+            <a style="color: black;" href="{{ url_for('user_posts', user_id=post.post_writer_id) }}">{{ post.user.user_name }}</a>
+            {% if post.user.user_type == "trainer" %}
+              <span class="badge" style="background-color: gold; color: black;">Trainer</span>
+            {% elif post.user.user_type == "gym_manager" %}
+              <span class="badge badge-dark">Gym</span>
+            {% elif post.user.user_type == "operator" %}
+              <span class="badge badge-primary">Operator</span>
+            {% endif %}
+          </td>
+          <td>
+            <a style="color: black;" href="{{ url_for('post', post_id=post.post_id) }}">{{ post.post_title }}</a>
+          </td>
+          <td>
+            <small class="text-muted">{{ post.post_local_datetime.strftime('%m-%d %H:%M') }}</small>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <div style="height: 20px;"></div>
+  {% for page_num in posts.iter_pages() %}
+    {% if page_num %}
+      {% if posts.page == page_num %}
+        <a class="btn btn-info mb-4" href="{{ url_for('bulletin_board', page=page_num) }}">{{ page_num }}</a>
+      {% else %}
+        <a class="btn btn-outline-info mb-4" href="{{ url_for('bulletin_board', page=page_num) }}">{{ page_num }}</a>
+      {% endif %}
+  {% else %}
+      ...
+    {% endif %}
+  {% endfor %}
+</div>
+{% endblock content %}
